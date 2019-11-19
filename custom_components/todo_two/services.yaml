@@ -1,0 +1,33 @@
+
+refresh:
+  description: Select different tasks to show.
+
+add:
+  description: Add a new task.
+  fields:
+    name:
+      description: The name of the new task
+      example: Vacuum living room
+    priority:
+      description: The priority of the task, relative to other tasks
+      example: 50
+
+update:
+  description: Update task name or priority.
+
+complete:
+  description: Complete a task.
+  fields:
+    taskId:
+      description: The UUID of the task that was completed.
+      example: 2c17bd45-d905-45cb-803a-d392735d40e9
+    userId:
+      description: The UUID of the user who completed the task.
+      example: bc79e7c6-ae92-4bc7-9ece-1a84772b6b82
+
+complete_selected_task:
+  description: Complete one of the currently selected tasks.
+  fields:
+    task:
+      description: The index of the task to be completed.
+      example: 1
