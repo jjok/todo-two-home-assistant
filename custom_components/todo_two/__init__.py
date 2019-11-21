@@ -1,4 +1,6 @@
 """Integration with Todo Two task application."""
+
+from datetime import datetime
 import logging
 import random
 import requests
@@ -155,6 +157,7 @@ def not_low_priority(task):
 
 def format_task_as_attributes(task):
     name = task['name']
+    date = datetime.utcfromtimestamp(int(task['lastCompletedAt'])).strftime('%Y-%m-%d %H:%M:%S')
     return {
         'friendly_name': name,
         'icon': 'mdi:broom',
