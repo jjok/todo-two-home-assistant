@@ -3,7 +3,7 @@ from homeassistant.helpers.entity import Entity
 
 
 def setup_platform(hass, config, add_entities, discovery_info=None):
-    add_entities([new TaskCountSensor()])
+    add_entities([TaskCountSensor()])
 
 
 class TaskCountSensor(Entity):
