@@ -12,9 +12,11 @@ class TaskCountSensor(Entity):
     def __init__(self):
         self._count = 0
 
+    @property
     def name(self):
         return 'task_count'
 
+    @property
     def state(self):
         return self._count
 
