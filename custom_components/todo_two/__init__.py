@@ -9,11 +9,14 @@ import uuid
 from requests.exceptions import HTTPError
 from homeassistant.util import slugify
 
+from todo_two import API
+from todo_two import get_all_users, get_all_tasks
+
 DOMAIN = "todo_two"
 
 LOGGER = logging.getLogger(__name__)
 
-API = 'http://localhost:8000'
+#API = 'http://localhost:8000'
 
 class TodoTwo(object):
 
@@ -136,12 +139,6 @@ def setup(hass, config):
     hass.services.call(DOMAIN, 'refresh')
 
     return True
-
-
-def get_all_tasks():
-    response = requests.get(url=f'{API}/tasks')
-    json = response.json()
-    return json['data']
 
 def select_tasks(number_of_tasks_required, tasks_that_need_to_be_done):
     number_of_tasks_that_need_to_be_done = len(tasks_that_need_to_be_done)
