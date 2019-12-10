@@ -9,8 +9,8 @@ import uuid
 from requests.exceptions import HTTPError
 from homeassistant.util import slugify
 
-from todo_two import API
-from todo_two import get_all_users, get_all_tasks
+from . import API
+from . import get_all_users, get_all_tasks
 
 DOMAIN = "todo_two"
 

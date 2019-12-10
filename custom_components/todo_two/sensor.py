@@ -1,7 +1,7 @@
 
 from homeassistant.helpers.entity import Entity
 
-from todo_two import get_all_tasks
+from . import get_all_tasks
 
 def setup_platform(hass, config, add_entities, discovery_info=None):
     add_entities([TaskCountSensor()])
