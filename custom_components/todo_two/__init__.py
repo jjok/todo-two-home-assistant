@@ -10,7 +10,7 @@ from requests.exceptions import HTTPError
 from homeassistant.util import slugify
 
 from .todo_two import API
-from .todo_two import get_all_users, get_all_tasks
+from .todo_two import tasks_that_need_to_be_done
 
 DOMAIN = "todo_two"
 
@@ -25,10 +25,8 @@ class TodoTwo(object):
         self.logger = logger
 
     def refresh_tasks(self, number_of_tasks):
-        tasks = get_all_tasks()
-
-        tasks_that_need_to_be_done = list(filter(not_low_priority, tasks))
-        selected_tasks = select_tasks(number_of_tasks, tasks_that_need_to_be_done)
+        tasks_to_be_done = tasks_that_need_to_be_done()
+        selected_tasks = select_tasks(number_of_tasks, tasks_to_be_done)
         number_of_selected_tasks = len(selected_tasks)
 
         self.hass.states.set(f'{DOMAIN}.tasks_to_be_done', len(tasks_that_need_to_be_done))
@@ -148,9 +146,6 @@ def select_tasks(number_of_tasks_required, tasks_that_need_to_be_done):
         return random.sample(top_fifteen, number_of_tasks_required)
 
     return tasks_that_need_to_be_done
-
-def not_low_priority(task):
-    return task['currentPriority'] != 'low'
 
 def format_task_as_attributes(task):
     name = task['name']
