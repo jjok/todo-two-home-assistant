@@ -29,7 +29,7 @@ class TodoTwo(object):
         selected_tasks = select_tasks(number_of_tasks, tasks_to_be_done)
         number_of_selected_tasks = len(selected_tasks)
 
-        self.hass.states.set(f'{DOMAIN}.tasks_to_be_done', len(tasks_that_need_to_be_done))
+        self.hass.states.set(f'{DOMAIN}.tasks_to_be_done', len(tasks_to_be_done))
 
         for i in range(0, number_of_tasks):
             if i < number_of_selected_tasks:
