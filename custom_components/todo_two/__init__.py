@@ -149,11 +149,11 @@ def select_tasks(number_of_tasks_required, tasks_that_need_to_be_done):
 
 def format_task_as_attributes(task):
     name = task['name']
-    date = datetime.utcfromtimestamp(int(task['lastCompletedAt'])).strftime('%Y-%m-%d %H:%M:%S')
+    formatted_date = datetime.utcfromtimestamp(int(task['lastCompletedAt'])).strftime('%Y-%m-%d %H:%M:%S')
     return {
         'friendly_name': name,
         'icon': 'mdi:broom',
         'id': task['id'],
-        'last_completed_at': task['lastCompletedAt'],
+        'last_completed_at': formatted_date,
 #        'last_completed_by': task['lastCompletedBy'],
         'current_priority': task['currentPriority']}
