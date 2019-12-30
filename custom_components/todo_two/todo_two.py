@@ -11,7 +11,7 @@ API = 'http://localhost:8000'
 def get_all_users():
     response = requests.get(url=f'{API}/users')
     json = response.json()
-    return json['data']
+    return list(map(lambda x: User(x), json['data']))
 
 def tasks_that_need_to_be_done():
     tasks = get_all_tasks()
@@ -24,6 +24,19 @@ def get_all_tasks():
 
 def not_low_priority(task):
     return task['currentPriority'] != 'low'
+
+
+class User(object):
+
+    def __init__(self, data) -> None:
+        self._data = data
+
+    def id(self) -> str:
+        return self._data['id']
+
+    def name(self) -> str:
+        return self._data['name']
+
 
 #def complete_task(taskId, userId):
 #    LOGGER.info(f'Completing Task: taskId={taskId}, userId={userId}')
