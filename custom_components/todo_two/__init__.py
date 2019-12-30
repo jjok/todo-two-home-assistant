@@ -24,7 +24,7 @@ class TodoTwo(object):
         self.hass = hass
         self.logger = logger
 
-    def refresh_tasks(self, number_of_tasks):
+    def refresh_tasks(self, number_of_tasks: int):
         tasks_to_be_done = tasks_that_need_to_be_done()
         selected_tasks = select_tasks(number_of_tasks, tasks_to_be_done)
         number_of_selected_tasks = len(selected_tasks)
@@ -40,7 +40,7 @@ class TodoTwo(object):
             else:
                 self.hass.states.remove(f'{DOMAIN}.task_{i + 1}')
 
-    def complete_selected_task(self, task_index):
+    def complete_selected_task(self, task_index: int):
         self.logger.info(f'Completing stored task {task_index}')
         task_data = self.hass.states.get(f'{DOMAIN}.task_{task_index}')
         current_user = self.hass.states.get(f'{DOMAIN}.current_user')
@@ -52,7 +52,7 @@ class TodoTwo(object):
         self.hass.services.call(DOMAIN, 'refresh')
 
 
-    def complete_task(self, taskId, userId):
+    def complete_task(self, taskId: str, userId: str):
         self.logger.info(f'Completing Task: taskId={taskId}, userId={userId}')
 
         try:
@@ -108,7 +108,7 @@ def setup(hass, config):
         todo_two.refresh_tasks(number_of_tasks)
 
     def complete_selected_task(call):
-        task_index = call.data.get('task')
+        task_index = int(call.data.get('task'))
 
         todo_two.complete_selected_task(task_index)
 
@@ -138,7 +138,7 @@ def setup(hass, config):
 
     return True
 
-def select_tasks(number_of_tasks_required, tasks_that_need_to_be_done):
+def select_tasks(number_of_tasks_required: int, tasks_that_need_to_be_done):
     number_of_tasks_that_need_to_be_done = len(tasks_that_need_to_be_done)
     top_fifteen = tasks_that_need_to_be_done[0:16]
 
