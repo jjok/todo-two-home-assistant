@@ -10,7 +10,7 @@ from requests.exceptions import HTTPError
 from homeassistant.util import slugify
 
 from .todo_two import API
-from .todo_two import tasks_that_need_to_be_done
+from .todo_two import tasks_that_need_to_be_done, get_all_users
 
 DOMAIN = "todo_two"
 
@@ -100,7 +100,11 @@ class TodoTwo(object):
 def setup(hass, config):
     number_of_tasks = config[DOMAIN].get('select', 3)
     #TODO Get this from config somewhere
-    hass.states.set(f'{DOMAIN}.current_user', '00e0c19f-f5bc-4718-b368-d157bb3a98c5')
+    users = get_all_users()
+    LOGGER.info(users)
+    default_user = users[0]
+    LOGGER.info(default_user)
+    hass.states.set(f'{DOMAIN}.current_user', default_user.id())
 
     todo_two = TodoTwo(hass, LOGGER)
 
