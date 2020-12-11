@@ -49,7 +49,6 @@ class TodoTwo(object):
         user_id = current_user.state
 
         self.hass.services.call(DOMAIN, 'complete', {'taskId': task_id, 'userId': user_id})
-        self.hass.services.call(DOMAIN, 'refresh')
 
     def complete_task(self, taskId: str, userId: str):
         self.logger.info(f'Completing Task: taskId={taskId}, userId={userId}')
@@ -71,6 +70,7 @@ class TodoTwo(object):
                 'id': taskId
             })
             self.logger.info('Success!')
+            self.hass.services.call(DOMAIN, 'refresh')
 
     def archive_task(self, taskId: str):
         self.logger.info(f'Archiving Task: taskId={taskId}')
@@ -88,6 +88,7 @@ class TodoTwo(object):
             self.logger.info(f'Other error occurred: {err}')
         else:
             self.logger.info('Success!')
+            self.hass.services.call(DOMAIN, 'refresh')
 
     def add_task(self, id, name, priority):
         self.logger.info(f'Adding Task: id={id}, name={name}, priority={priority}')
