@@ -31,3 +31,10 @@ complete_selected_task:
     task:
       description: The index of the task to be completed.
       example: 1
+
+archive:
+  description: Archive a task, for when it no longer needs to be completed.
+  fields:
+    taskId:
+      description: The UUID of the task to be archived.
+      example: 2c17bd45-d905-45cb-803a-d392735d40e9

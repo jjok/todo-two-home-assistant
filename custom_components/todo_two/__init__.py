@@ -51,7 +51,6 @@ class TodoTwo(object):
         self.hass.services.call(DOMAIN, 'complete', {'taskId': task_id, 'userId': user_id})
         self.hass.services.call(DOMAIN, 'refresh')
 
-
     def complete_task(self, taskId: str, userId: str):
         self.logger.info(f'Completing Task: taskId={taskId}, userId={userId}')
 
@@ -61,11 +60,8 @@ class TodoTwo(object):
                 json={'user':userId},
                 headers={'Content-Type': 'application/json'}
             )
-
-    #        self.logger.info(response.headers)
-    #        self.logger.info(response.status_code)
-
             response.raise_for_status()
+
         except HTTPError as http_err:
             self.logger.info(f'HTTP error occurred: {http_err}')
         except Exception as err:
@@ -74,6 +70,23 @@ class TodoTwo(object):
             self.hass.bus.fire(f'{DOMAIN}_task_was_completed', {
                 'id': taskId
             })
+            self.logger.info('Success!')
+
+    def archive_task(self, taskId: str):
+        self.logger.info(f'Archiving Task: taskId={taskId}')
+
+        try:
+            response = requests.post(
+                f'{API}/tasks/{taskId}/archive',
+                headers={'Content-Type': 'application/json'}
+            )
+            response.raise_for_status()
+
+        except HTTPError as http_err:
+            self.logger.info(f'HTTP error occurred: {http_err}')
+        except Exception as err:
+            self.logger.info(f'Other error occurred: {err}')
+        else:
             self.logger.info('Success!')
 
     def add_task(self, id, name, priority):
@@ -99,11 +112,10 @@ class TodoTwo(object):
 
 def setup(hass, config):
     number_of_tasks = config[DOMAIN].get('select', 3)
-    #TODO Get this from config somewhere
+
     users = get_all_users()
-    LOGGER.info(users)
     default_user = users[0]
-    LOGGER.info(default_user)
+    LOGGER.info(f'Default user selected: {default_user.name()} ({default_user.id()})')
     hass.states.set(f'{DOMAIN}.current_user', default_user.id())
 
     todo_two = TodoTwo(hass, LOGGER)
@@ -132,11 +144,17 @@ def setup(hass, config):
     def update_task(call):
         LOGGER.info(f'Updating task is not yet implemented.')
 
+    def archive_task(call):
+        id = str(uuid.uuid4())
+
+        todo_two.archive_task(task_id)
+
     hass.services.register(DOMAIN, 'refresh', refresh_tasks)
     hass.services.register(DOMAIN, 'add', add_task)
     hass.services.register(DOMAIN, 'update', update_task)
     hass.services.register(DOMAIN, 'complete', complete_task)
     hass.services.register(DOMAIN, 'complete_selected_task', complete_selected_task)
+    hass.services.register(DOMAIN, 'archive', archive_task)
 
     hass.services.call(DOMAIN, 'refresh')
 
