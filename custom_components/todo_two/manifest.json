@@ -1,6 +1,7 @@
 {
   "domain": "todo_two",
   "name": "Recurring Tasks",
+  "version": "1.0.0",
   "documentation": "https://github.com/jjok/todo-two-home-assistant",
   "dependencies": [],
   "codeowners": [],
