@@ -146,7 +146,7 @@ def setup(hass, config):
         LOGGER.info(f'Updating task is not yet implemented.')
 
     def archive_task(call):
-        id = str(uuid.uuid4())
+        task_id = call.data.get('taskId')
 
         todo_two.archive_task(task_id)
 
